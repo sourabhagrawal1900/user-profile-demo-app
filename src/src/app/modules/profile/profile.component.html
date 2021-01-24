@@ -1,0 +1,150 @@
+<div>
+  <h3>USER REGISTRATION</h3>
+  <div class="flex-container">
+    <div class="column">
+      <form nz-form [formGroup]="validateForm">
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="email">E-mail</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="Please enter valid Email Id">
+            <input nz-input placeholder="Enter Email Id" formControlName="email" id="email"/>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="password" nzRequired>Password</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="pswdErrorTpl">
+            <nz-input-group [nzSuffix]="suffixTemplate">
+              <input [type]="passwordVisible ? 'text' : 'password'" nz-input placeholder="Enter password"
+                     formControlName="password" (ngModelChange)="updateConfirmValidator()"/>
+            </nz-input-group>
+            <ng-template #suffixTemplate>
+              <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+                 (click)="passwordVisible = !passwordVisible"></i>
+            </ng-template>
+            <ng-template #pswdErrorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                Password is required.
+              </ng-container>
+              <ng-container *ngIf="control.hasError('pattern')">
+                Password should at least 8 characters, one uppercase, one lowercase, one special characters!
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="confirmPassword" nzRequired>Confirm Password</nz-form-label>
+          <nz-form-control [nzSm]="14" [nzXs]="24" [nzErrorTip]="errorTpl">
+            <input nz-input type="password" placeholder="Enter Confirm" formControlName="confirmPassword"
+                   id="confirmPassword"/>
+            <ng-template #errorTpl let-control>
+              <ng-container *ngIf="control.hasError('required')">
+                Confirm Password is required.
+              </ng-container>
+              <ng-container *ngIf="control.hasError('confirm')">
+                Password does not match with confirm password.
+              </ng-container>
+            </ng-template>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="phoneNumber" nzRequired>Phone Number</nz-form-label>
+          <nz-form-control
+            [nzSm]="14"
+            [nzXs]="24"
+            [nzErrorTip]="phoneErrorTpl"
+          >
+            <nz-input-group [nzAddOnBefore]="addOnBeforeTemplate">
+              <ng-template #addOnBeforeTemplate>
+                <nz-select formControlName="phoneNumberPrefix" class="phone-select">
+                  <nz-option nzCustomContent *ngFor="let option of listOfCodes" [nzLabel]="option.dial_code"
+                             [nzValue]="option.dial_code">
+                    <div>
+                      <span class="_600"></span>{{option.name}} ({{option.dial_code}})
+                    </div>
+                  </nz-option>
+                </nz-select>
+              </ng-template>
+              <input formControlName="phoneNumber" placeholder="Enter Phone number" id="phoneNumber" nz-input/>
+              <ng-template #phoneErrorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">
+                  Phone Number is required.
+                </ng-container>
+                <ng-container *ngIf="control.hasError('pattern')">
+                  Please, Enter 10 digit Mobile Number.
+                </ng-container>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6" nzFor="gender">Gender</nz-form-label>
+          <nz-form-control [nzSpan]="14">
+            <nz-radio-group formControlName="gender" id="gender">
+              <label nz-radio nzValue="MALE">Male</label>
+              <label nz-radio nzValue="FEMALE">Female</label>
+            </nz-radio-group>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6" nzFor="hobbies">Hobbies</nz-form-label>
+          <nz-form-control [nzSpan]="14">
+            <nz-select formControlName="hobbies" nzMode="tags" [nzTokenSeparators]="[',']"
+                       nzPlaceHolder="Select hobbies"
+                       id="hobbies">
+              <nz-option *ngFor="let option of listOfHobbies" [nzLabel]="option" [nzValue]="option"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-label [nzSpan]="6" nzFor="city">City</nz-form-label>
+          <nz-form-control [nzSpan]="14">
+            <nz-select formControlName="city" nzShowSearch nzAllowClear nzPlaceHolder="Select a city"
+                       id="city">
+              <nz-option *ngFor="let city of listOfCities" [nzLabel]="city" [nzValue]="city"></nz-option>
+            </nz-select>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nz-row class="register-area">
+          <nz-form-control [nzSpan]="14" [nzOffset]="6">
+            <label nz-checkbox formControlName="agree">
+        <span>
+          I'm agree
+        </span>
+            </label>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item nz-row class="register-area">
+          <nz-form-control [nzSpan]="14" [nzOffset]="6">
+            <button nz-button (click)="onSubmit()" [nzLoading]="isSubmitted" nzType="primary"
+                    [disabled]="validateForm.invalid || !validateForm.controls.agree.value || fileList.length === 0">
+              Register
+            </button>
+            <button nz-button class="m-l" (click)="reset()" nzType="default">Reset</button>
+          </nz-form-control>
+        </nz-form-item>
+      </form>
+    </div>
+    <div class="column2">
+      <div class="clearfix">
+        <nz-upload
+          [nzAccept]="'image/png, image/jpeg'"
+          nzAction=""
+          nzListType="picture-card"
+          [(nzFileList)]="fileList"
+          [nzShowButton]="fileList.length < 1"
+          [nzPreview]="handlePreview"
+        >
+          <div>
+            <i nz-icon nzType="plus"></i>
+            <div style="margin-top: 8px">Upload Pic</div>
+          </div>
+        </nz-upload>
+        <nz-modal [nzVisible]="previewVisible" [nzContent]="modalContent" [nzFooter]="null"
+                  (nzOnCancel)="previewVisible = false">
+          <ng-template #modalContent>
+            <img [src]="previewImage" [ngStyle]="{ width: '100%' }"/>
+          </ng-template>
+        </nz-modal>
+      </div>
+    </div>
+  </div>
+</div>

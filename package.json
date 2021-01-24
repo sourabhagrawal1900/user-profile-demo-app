@@ -1,17 +1,21 @@
 {
   "name": "user-profile-demo-app",
   "version": "0.0.0",
+  "author": "sourabh agrawal",
   "scripts": {
+    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install",
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "postinstall": "ng serve"
   },
   "private": true,
   "dependencies": {
     "@angular/animations": "~9.1.13",
+    "@angular/cdk": "^9.2.4",
     "@angular/common": "~9.1.13",
     "@angular/compiler": "~9.1.13",
     "@angular/core": "~9.1.13",
@@ -19,6 +23,7 @@
     "@angular/platform-browser": "~9.1.13",
     "@angular/platform-browser-dynamic": "~9.1.13",
     "@angular/router": "~9.1.13",
+    "ng-zorro-antd": "^9.3.0",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
